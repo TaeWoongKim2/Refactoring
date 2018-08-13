@@ -10,7 +10,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</select>
 	
 	<select id="checkUserNickname" resultType="Integer">
-		SELECT Count(*) FROM USER WHERE NNAME=#{nname}
+		SELECT Count(*) FROM USERINFO WHERE NNAME=#{nname}
 	</select>
 	
 	<insert id="insertNewUser" statementType="CALLABLE" parameterType="HashMap">
