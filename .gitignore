@@ -57,3 +57,10 @@ buildNumber.properties
 
 
 # End of https://www.gitignore.io/api/web,java,maven,java-web
+RootMark/\.classpath
+
+RootMark/\.project
+
+RootMark/\.settings/
+
+RootMark/\.springBeans
