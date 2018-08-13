@@ -156,7 +156,13 @@ public class MainController {
 		return jsonview;
 	}
 	
-	/* Log in */
+	/***************************************************************************************************
+	 * 로그인 및 회원가입, 회원정보 수정 START
+	 ***************************************************************************************************/
+	
+	/* ***********************************************************************
+	 * 로그인
+	 * *********************************************************************** */
 	@RequestMapping(value="/joinus/login.do")
 	public View login(HttpServletRequest request, HttpServletResponse response, 
 			HttpSession session, Model model, UserDTO user) {
@@ -255,7 +261,10 @@ public class MainController {
 		return "redirect:/";
 	}
 	
-	/* 회원가입  */
+	
+	/* ***********************************************************************
+	 * 회원가입
+	 * *********************************************************************** */
 	@RequestMapping(value="/joinus/rollin.do", method=RequestMethod.POST)
 	public View rollin(HttpServletRequest request, HttpServletResponse response, 
 			UserDTO user, Model model) {
@@ -440,6 +449,11 @@ public class MainController {
 		return jsonview;
 	}
 	/* 비밀번호 찾기 END */
+	
+	
+	/***************************************************************************************************
+	 * 로그인 및 회원가입, 회원정보 수정 END
+	 ***************************************************************************************************/
 	
 	// 미리보기 기능 추가 상세정보 웹크롤링(World Ranking, Sub-URL)
 	@RequestMapping("previewdetail.do")
