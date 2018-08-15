@@ -166,12 +166,12 @@ public class U_BookService {
 
 	// JSTREE 폴더 혹은 URL 추가
 	@Transactional
-	public int addFolderOrUrl(U_BookDTO dto) {
+	public int addFolderOrUrl(U_BookDTO ubook) {
 
 		U_BookDAO dao = sqlsession.getMapper(U_BookDAO.class);
 		int result = 0;
 		try {
-			dao.addFolderOrUrl(dto);
+			dao.addFolderOrUrl(ubook);
 			result = dao.getMaxId();
 		} catch (ClassNotFoundException | SQLException e) {
 			e.printStackTrace();
@@ -277,7 +277,7 @@ public class U_BookService {
 				dto.setUrl(url);
 				dto.setUrlname((String)jarr.getJSONObject(i).get("urlname"));
 				dto.setPid(Integer.valueOf((String)jarr.getJSONObject(i).get("pid")));
-				dto.setUid(uid);
+				dto.setNname(uid);
 				
 				list.add(dto);
 			}

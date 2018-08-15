@@ -19,7 +19,7 @@ public class U_BookDTO {
 	private String urlname;
 	private String regdate;
 	private int view;
-	private String uid;
+	private String nname;
 	private int pid;
 	private int abid;
 	private String sname;
@@ -28,25 +28,25 @@ public class U_BookDTO {
 	
 	public U_BookDTO() {}
 	
-	public U_BookDTO(int ubid, String url, String urlname, String regdate, int view, String uid, int pid, int abid) {
+	public U_BookDTO(int ubid, String url, String urlname, String regdate, int view, String nname, int pid, int abid) {
 		super();
 		this.ubid = ubid;
 		this.url = url;
 		this.urlname = urlname;
 		this.regdate = regdate;
 		this.view = view;
-		this.uid = uid;
+		this.nname = nname;
 		this.pid = pid;
 		this.abid = abid;
 	}
 
-	public U_BookDTO(int ubid, String url, String urlname, String regdate, int view, String uid, int pid, int abid, String sname, String htag, String sdate) {
+	public U_BookDTO(int ubid, String url, String urlname, String regdate, int view, String nname, int pid, int abid, String sname, String htag, String sdate) {
 		this.ubid = ubid;
 		this.url = url;
 		this.urlname = urlname;
 		this.regdate = regdate;
 		this.view = view;
-		this.uid = uid;
+		this.nname = nname;
 		this.pid = pid;
 		this.abid = abid;
 		this.sname = sname;
@@ -65,8 +65,8 @@ public class U_BookDTO {
 	public void setRegdate(String regdate) {this.regdate = regdate;}
 	public int getView() {return view;}
 	public void setView(int view) {this.view = view;}
-	public String getUid() {return uid;}
-	public void setUid(String uid) {this.uid = uid;}
+	public String getNname() {return nname;}
+	public void setNname(String nname) {this.nname = nname;}
 	public int getPid() {return pid;}
 	public void setPid(int pid) {this.pid = pid;}
 	public int getAbid() {return abid;}
@@ -81,7 +81,7 @@ public class U_BookDTO {
 	@Override
 	public String toString() {
 		return "U_BookDTO [ubid=" + ubid + ", url=" + url + ", urlname=" + urlname + ", regdate=" + regdate + ", view="
-				+ view + ", uid=" + uid + ", pid=" + pid + ", abid=" + abid + ", sname=" + sname + ", htag=" + htag
+				+ view + ", nname=" + nname + ", pid=" + pid + ", abid=" + abid + ", sname=" + sname + ", htag=" + htag
 				+ ", sdate=" + sdate + "]";
 	}
 	

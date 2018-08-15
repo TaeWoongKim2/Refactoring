@@ -215,9 +215,7 @@ $(document).ready(function(){
 	/*왼쪽 위에 new category 버튼 클릭시 실행*/
 	$('#addroot').on('dblclick', function(){ return });
 	$('#addroot').on("click",function(){
-		
 		var tree = $("#jstree_container").jstree(true);
-			  
 		$.ajax({
 			url : "addRoot.do",
 			type : "POST",
@@ -228,12 +226,14 @@ $(document).ready(function(){
 				$('#loading').html(""); 
 			},
 			success : function(data){
-				
 				var ubid = $.trim(data.ubid);
+				
 				//root 카테로기 생성
 				tree.create_node(null, {text : "새 카테고리", id : ubid, icon : "fa fa-folder"}, "last", function(new_node) {
 					new_node = ubid;
-					tree.edit(new_node); //생성과 동시에 이름 수정할 수 있게 함
+					
+					//생성과 동시에 이름 수정할 수 있게 함
+					tree.edit(new_node); 
 					$(".jstree-rename-input").attr("maxLength",33);
 					
 				});

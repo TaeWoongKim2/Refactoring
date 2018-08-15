@@ -51,7 +51,7 @@ public interface U_BookDAO {
 	public int getMaxId() throws ClassNotFoundException, SQLException;
 
 	// JSTREE 폴더 혹은 URL 추가
-	public int addFolderOrUrl(U_BookDTO dto) throws ClassNotFoundException, SQLException;
+	public int addFolderOrUrl(U_BookDTO ubook) throws ClassNotFoundException, SQLException;
 
 	// JSTREE 폴더 혹은 URL 삭제
 	public int deleteFolderOrUrl(String str) throws ClassNotFoundException, SQLException;
