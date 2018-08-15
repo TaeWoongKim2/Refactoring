@@ -17,7 +17,6 @@ public class S_U_BookDTO {
 	private int ubid;
 	private String url;
 	private int view;
-	private String uid;
 	private String nname;
 	private String sname;
 	private String htag;
@@ -25,12 +24,11 @@ public class S_U_BookDTO {
 
 	public S_U_BookDTO() {}
 	
-	public S_U_BookDTO(int ubid, String url, int view, String uid, String nname, String sname, String htag,
+	public S_U_BookDTO(int ubid, String url, int view, String nname, String sname, String htag,
 			String sdate) {
 		this.ubid = ubid;
 		this.url = url;
 		this.view = view;
-		this.uid = uid;
 		this.nname = nname;
 		this.sname = sname;
 		this.htag = htag;
@@ -44,8 +42,6 @@ public class S_U_BookDTO {
 	public void setUrl(String url) {this.url = url;}
 	public int getView() {return view;}
 	public void setView(int view) {this.view = view;}
-	public String getUid() {return uid;}
-	public void setUid(String uid) {this.uid = uid;}
 	public String getNname() {return nname;}
 	public void setNname(String nname) {this.nname = nname;}
 	public String getSname() {return sname;}
@@ -57,11 +53,8 @@ public class S_U_BookDTO {
 
 	@Override
 	public String toString() {
-		return "S_U_BookDTO [ubid=" + ubid + ", url=" + url + ", view=" + view + ", uid=" + uid + ", nname=" + nname
+		return "S_U_BookDTO [ubid=" + ubid + ", url=" + url + ", view=" + view + ", nname=" + nname
 				+ ", sname=" + sname + ", htag=" + htag + ", sdate=" + sdate + "]";
 	}
 
-	
-
-	
 }
