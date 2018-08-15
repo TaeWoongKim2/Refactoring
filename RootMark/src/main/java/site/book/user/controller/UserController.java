@@ -45,6 +45,7 @@ import site.book.team.service.G_AlarmService;
 import site.book.team.service.G_BookService;
 import site.book.team.service.G_MemberService;
 import site.book.team.service.TeamService;
+import site.book.user.dto.JsTreeDTO;
 import site.book.user.dto.U_BookDTO;
 import site.book.user.service.U_BookService;
 import site.book.user.service.UserService;
@@ -257,65 +258,74 @@ public class UserController {
 	
 	//해당 유저의 카테고리를 보내준다.
 	@RequestMapping("getCategoryList.do")	
-	public void getCategoryList(HttpServletRequest req , HttpServletResponse res) {
-		
-		res.setCharacterEncoding("UTF-8");
-		
-		HttpSession session = req.getSession();
-        String uid = (String)session.getAttribute("info_userid");
+	public View getCategoryList(HttpServletRequest req,  HttpSession session, Model model) {
+
+        String nname = (String)session.getAttribute("info_usernname");
         
-		JSONArray jsonArray = new JSONArray();	
-		List<U_BookDTO> list = u_bookservice.getCategoryList(uid);
+		//JSONArray jsonArray = new JSONArray();	
+		List<U_BookDTO> list = u_bookservice.getCategoryList(nname);
 		
 		if(list.size() ==0) {
-			
-			JSONObject jsonobject = new JSONObject();
-			
 			// 처음 가입자는 첫 카테고리를  생성해 준다.
-			int ubid = u_bookservice.insertRootFolder(uid);
+			int ubid = u_bookservice.insertRootFolder(nname);
 			
-			//처음 가입한 유저일 경우 root폴더 생성해 준다.
-				
+			JsTreeDTO jstree = new JsTreeDTO(Integer.toString(ubid), nname);
+			model.addAttribute("jstree", jstree);
+			
+			/*//처음 가입한 유저일 경우 root폴더 생성해 준다.
+			JSONObject jsonobject = new JSONObject();
 			jsonobject.put("id", ubid);
 			jsonobject.put("parent", "#");
 			jsonobject.put("text", "첫 카테고리");
 			jsonobject.put("icon", "fa fa-folder");
-			jsonobject.put("uid", uid);
-			jsonArray.put(jsonobject);
-				
+			jsonobject.put("uid", nname);
+			jsonArray.put(jsonobject);*/
 		}else {
+			List<JsTreeDTO> jstreeList = new ArrayList<>();
 			
-			for(int i =0;i<list.size();i++) {
+			for(int i = 0; i < list.size(); i++) {
+				//JSONObject jsonobject = new JSONObject();
 				
-				JSONObject jsonobject = new JSONObject();
+				JsTreeDTO jstree = new JsTreeDTO();
+				String parentid = Integer.toString( list.get(i).getPid() );
 				
-				String parentid = String.valueOf(list.get(i).getPid());
-				
-				if(parentid.equals("0") || parentid.equals(""))
-					jsonobject.put("parent", "#");
-				else
-					jsonobject.put("parent", parentid);
-				
-				if(list.get(i).getUrl() == null)
-					jsonobject.put("icon", "fa fa-folder");	//favicon 추가
-				else {
-					jsonobject.put("icon", "https://www.google.com/s2/favicons?domain="+list.get(i).getUrl());	//favicon 추가
+				// 첫 카테고리 또는 자식 카테고리 분류
+				if(parentid.equals("0") || parentid.equals("")) {
+					//jsonobject.put("parent", "#");
+					jstree.setParent("#");
+				}else {
+					//jsonobject.put("parent", parentid);
+					jstree.setParent(parentid);
 				}
-				jsonobject.put("id", list.get(i).getUbid());
+				
+				// Folder 또는 Favicon 추가
+				if(list.get(i).getUrl() == null) {
+					//jsonobject.put("icon", "fa fa-folder");	
+					jstree.setIcon("fa fa-folder");
+				}else {
+					//jsonobject.put("icon", "https://www.google.com/s2/favicons?domain="+list.get(i).getUrl());
+					jstree.setIcon( "https://www.google.com/s2/favicons?domain="+list.get(i).getUrl() );
+				}
+				
+				/*jsonobject.put("id", list.get(i).getUbid());
 				jsonobject.put("text", list.get(i).getUrlname());
-				jsonobject.put("uid",uid);
+				jsonobject.put("uid", nname);
 				jsonobject.put("sname", list.get(i).getSname());
 				jsonobject.put("htag", list.get(i).getHtag());
+				*/
+				jstree.setId( Integer.toString(list.get(i).getUbid()) );
+				jstree.setText( list.get(i).getUrlname() );
+				jstree.setUid( nname );
+				jstree.setSname( list.get(i).getSname() );
+				jstree.setHtag( list.get(i).getHtag() );
 				
-				jsonArray.put(jsonobject);
-				
+				jstreeList.add(jstree);
 			}
+			
+			model.addAttribute("jstree", jstreeList);
 		}
-		try {
-			res.getWriter().println(jsonArray);
-		}catch (JSONException | IOException e) {
-			e.printStackTrace();
-		}
+
+		return jsonview;
 	}
 	
 	//해당 노드의 url 추출
