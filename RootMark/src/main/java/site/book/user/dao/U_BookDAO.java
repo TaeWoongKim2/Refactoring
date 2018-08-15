@@ -42,16 +42,16 @@ public interface U_BookDAO {
 	
 	// 명수
 	// 마이북마크 왼쪽 폴더들만 보이는 JSTREE
-	public List<U_BookDTO> getCategoryList(String uid) throws ClassNotFoundException, SQLException;
+	public List<U_BookDTO> getCategoryList(String nname) throws ClassNotFoundException, SQLException;
 
 	// 마이북마크 왼쪽 JSTREE에서 root 카테고리 추가
-	public int insertRootFolder(String uid) throws ClassNotFoundException, SQLException;
+	public int insertRootFolder(String nname) throws ClassNotFoundException, SQLException;
 
 	// JSTREE 노드 생성시 db 처리와 노드 뿌리는처리에서 id 값 가져오기
 	public int getMaxId() throws ClassNotFoundException, SQLException;
 
 	// JSTREE 폴더 혹은 URL 추가
-	public int addFolderOrUrl(U_BookDTO dto) throws ClassNotFoundException, SQLException;
+	public int addFolderOrUrl(U_BookDTO ubook) throws ClassNotFoundException, SQLException;
 
 	// JSTREE 폴더 혹은 URL 삭제
 	public int deleteFolderOrUrl(String str) throws ClassNotFoundException, SQLException;
