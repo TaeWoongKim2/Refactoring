@@ -102,14 +102,13 @@ public class MainController {
 	@Autowired
 	private NoticeService notice_service;
 	
-	// 명수
+	// 민재
 	
 	// 변수 End
 	
+	
 	// 함수 Start
-	
 	// 태웅
-	
 	/*메인 화면 데이터 출력*/
 	@RequestMapping(value="/index.do", method=RequestMethod.GET)
 	public String initMain(HttpServletRequest req, Model model) {
@@ -124,18 +123,18 @@ public class MainController {
 		HttpSession session = req.getSession();
 		String uid = (String)session.getAttribute("info_userid");
 		
-		if(uid != null) {
-			List<TeamDTO> headerTeamList = teamservice.getTeamList(uid);
-			model.addAttribute("headerTeamList", headerTeamList);
-		}
-		
-		// 그룹 초대/강퇴/완료 알람  쪽지 리스트
-		List<G_MyAlarmDTO> headerAlarmList = galarmservice.getAlarmList(uid);
-		model.addAttribute("headerAlarmList", headerAlarmList);
-		
 		// 관리자 공지사항 쪽지 리스트
 		List<NoticeDTO> headerNoticeList = notice_service.getNotices();
 		model.addAttribute("headerNoticeList", headerNoticeList);
+		
+		if(uid != null) {
+			List<TeamDTO> headerTeamList = teamservice.getTeamList(uid);
+			model.addAttribute("headerTeamList", headerTeamList);
+				
+			// 그룹 초대/강퇴/완료 알람  쪽지 리스트
+			List<G_MyAlarmDTO> headerAlarmList = galarmservice.getAlarmList(uid);
+			model.addAttribute("headerAlarmList", headerAlarmList);
+		}
 		
 		return "home.index";
 	}
@@ -156,10 +155,9 @@ public class MainController {
 		return jsonview;
 	}
 	
-	/***************************************************************************************************
-	 * 로그인 및 회원가입, 회원정보 수정 START
-	 ***************************************************************************************************/
-	
+	/* **************************************************************************************************
+	 * 로그인 및 회원가입, 회원정보 수정
+	 ************************************************************************************************** */
 	/* ***********************************************************************
 	 * 로그인
 	 * *********************************************************************** */
@@ -167,33 +165,32 @@ public class MainController {
 	public View login(HttpServletRequest request, HttpServletResponse response, 
 			HttpSession session, Model model, UserDTO user) {
 		
-		// process message from Handler and JSON data response
-		// 로그인 실패: 아이디 또는 비밀번호 잘못 입력
+		// LoginHandler로부터 인증 프로세스 처리 후, JSON data response
 		try {
+			// 로그인 실패: 아이디 또는 비밀번호 잘못 입력
 			if(request.getAttribute("msg").equals("fail")) {
 				model.addAttribute("login", "fail");
-			
+			}
 			// 중복 로그인 처리
-			}else if(request.getAttribute("msg").equals("duplicate")) {
+			else if(request.getAttribute("msg").equals("duplicate")) {
 				model.addAttribute("login", "duplicate");
-				
-			}else {
+			}
+			// 로그인 성공
+			else {
 				String userid = (String)request.getAttribute("userid");
-				user.setUid(userid);
-				user = user_service.getMember(user.getUid());
-				model.addAttribute("login", "success");
+				user = user_service.getMember(userid);
 				
-				String role = (String)request.getAttribute("ROLE");
-				if(role.equals("ADMIN")) {
-					model.addAttribute("path", "admin/main.do");
-				}else {
-					model.addAttribute("path", "index.do");
-				}
-				
-				// set info session userid
+				// Set 회원 정보 session 
 				session.setAttribute("info_userid", user.getUid());
 				session.setAttribute("info_usernname", user.getNname());
 				session.setAttribute("info_userprofile", user.getProfile());
+				
+				// 권한(관리자,회원)에 따른 페이지 이동
+				String role = (String)request.getAttribute("ROLE");
+				String path = (role.equals("ADMIN")) ? "admin/main.do" : "index.do";
+				model.addAttribute("path", path);
+				
+				model.addAttribute("login", "success");
 			}
 		} catch (Exception e) {
 			/*e.printStackTrace();*/
@@ -449,11 +446,10 @@ public class MainController {
 		return jsonview;
 	}
 	/* 비밀번호 찾기 END */
-	
-	
-	/***************************************************************************************************
-	 * 로그인 및 회원가입, 회원정보 수정 END
-	 ***************************************************************************************************/
+	 
+	/* **************************************************************************************************
+	 * 로그인 및 회원가입, 회원정보 수정
+	 ************************************************************************************************** */
 	
 	// 미리보기 기능 추가 상세정보 웹크롤링(World Ranking, Sub-URL)
 	@RequestMapping("previewdetail.do")
