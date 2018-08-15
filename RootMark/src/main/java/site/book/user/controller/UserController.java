@@ -233,23 +233,24 @@ public class UserController {
 		HttpSession session = req.getSession();
 		String uid = (String)session.getAttribute("info_userid");
 		
-		List<TeamDTO> teamList = teamservice.getTeamList(uid);
+		/*List<TeamDTO> teamList = teamservice.getTeamList(uid);
 		model.addAttribute("teamList", teamList);
 		
 		List<TeamDTO> completedTeamList = teamservice.getCompletedTeamList(uid);
-		model.addAttribute("completedTeamList", completedTeamList);
+		model.addAttribute("completedTeamList", completedTeamList);*/
 		
-		if(uid != null) {
-			List<TeamDTO> headerTeamList = teamservice.getTeamList(uid);
-			model.addAttribute("headerTeamList", headerTeamList);
-		}
-		
-		// 그룹 초대/강퇴/완료 알람  쪽지 리스트
-		List<G_MyAlarmDTO> headerAlarmList = galarmservice.getAlarmList(uid);
-		model.addAttribute("headerAlarmList", headerAlarmList);
-		
+		// 관리자 공지사항 쪽지 리스트
 		List<NoticeDTO> headerNoticeList = notice_service.getNotices();
 		model.addAttribute("headerNoticeList", headerNoticeList);
+		
+		/*if(uid != null) {
+			List<TeamDTO> headerTeamList = teamservice.getTeamList(uid);
+			model.addAttribute("headerTeamList", headerTeamList);
+				
+			// 그룹 초대/강퇴/완료 알람  쪽지 리스트
+			List<G_MyAlarmDTO> headerAlarmList = galarmservice.getAlarmList(uid);
+			model.addAttribute("headerAlarmList", headerAlarmList);
+		}*/
 		
 		return "mypage.myCategory";
 	}
