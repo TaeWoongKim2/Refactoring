@@ -20,8 +20,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			(
                 #{uid},
                 #{nname},
-                #{pwd},
-                #{oauth_code}
+                #{pwd}
             )
         }
 	</insert>
