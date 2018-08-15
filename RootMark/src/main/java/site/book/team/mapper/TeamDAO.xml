@@ -8,7 +8,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<!-- 희준 -->
 	<select id="socialGroupList" resultType="site.book.team.dto.S_TeamDTO">
 		SELECT t.GID, t.GNAME, u.NNAME, t.HTAG, t.REGDATE, t.DUEDATE as DUEDATE
-		, t.VIEW FROM TEAM t JOIN G_MEMBER gm ON t.GID = gm.GID JOIN USER u ON gm.UID = u.UID 
+		, t.VIEW FROM TEAM t JOIN G_MEMBER gm ON t.GID = gm.GID JOIN USER u ON gm.NNAME = u.NNAME 
 		WHERE t.HTAG IS NOT NULL AND gm.GRID = 1
 	</select>
 	
@@ -37,7 +37,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</update>
 	
 	<select id="getGroupMember" resultType="site.book.team.dto.G_AlarmDTO">
-		select (select #{fromid} from DUAL) as FROMID, UID as toid, GID 
+		select (select #{fromid} from DUAL) as FROMID, NNAME as toid, GID 
 		from G_MEMBER
 		where GID=#{gid};
 	</select>
@@ -56,15 +56,15 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	
 	<!-- 명수 -->
 	<select id="getCompletedTeamList" resultType="site.book.team.dto.TeamDTO">
-		SELECT * FROM TEAM t JOIN G_MEMBER gm ON t.gid = gm.gid WHERE UID = #{0} AND HTAG IS NOT NULL
+		SELECT * FROM TEAM t JOIN G_MEMBER gm ON t.gid = gm.gid WHERE NNAME = #{0} AND HTAG IS NOT NULL
 	</select>
 	
 	<select id="getTeamList" resultType="site.book.team.dto.TeamDTO">
-		SELECT T.GID, T.GNAME, T.HTAG, T.REGDATE, T.DUEDATE, GM.UID, GM.CCOUNT, GM.GRID FROM TEAM T JOIN G_MEMBER GM ON T.GID = GM.GID WHERE UID = #{uid} AND HTAG IS NULL
+		SELECT T.GID, T.GNAME, T.HTAG, T.REGDATE, T.DUEDATE, GM.NNAME, GM.CCOUNT, GM.GRID FROM TEAM T JOIN G_MEMBER GM ON T.GID = GM.GID WHERE NNAME = #{nname} AND HTAG IS NULL
 	</select>
 	
 	<delete id="deleteCompletedTeam">
-		DELETE FROM G_MEMBER WHERE UID = #{0}
+		DELETE FROM G_MEMBER WHERE NNAME = #{0}
 	</delete>
 	
 	<update id="updateViewCount">

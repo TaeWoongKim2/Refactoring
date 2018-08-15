@@ -147,12 +147,13 @@ public class UserController {
 	// 그룹 추가
 	@RequestMapping("addGroup.do")
 	public String addGroup(HttpServletRequest req, String gname) {
-		//System.out.println("그룹 추가");
+		
+		System.out.println("그룹 추가");
 		HttpSession session = req.getSession();
-		String uid = (String)session.getAttribute("info_userid");
+		String nname = (String)session.getAttribute("info_usernname");
 		
 		G_MemberDTO member = new G_MemberDTO();
-		member.setUid(uid);
+		member.setNname(nname);
 		member.setGrid(1);
 		
 		teamservice.addGroup(gname, member);
@@ -227,30 +228,41 @@ public class UserController {
 	
 	
 	
-	// 명수
+	/*
+	 작성자 : 정민재
+	 작성일 : 2018.08.15
+	 기  능 : My Page 그룹 리스트 
+	 */
 	@RequestMapping("mybookmark.do")
 	public String mybookmark(HttpServletRequest req, Model model) {
 		HttpSession session = req.getSession();
-		String uid = (String)session.getAttribute("info_userid");
+		String nname = (String)session.getAttribute("info_usernname");
 		
-		/*List<TeamDTO> teamList = teamservice.getTeamList(uid);
-		model.addAttribute("teamList", teamList);
+		/*List<TeamDTO> teamList = teamservice.getTeamList(nname);
+		model.addAttribute("teamList", teamList);*/
 		
-		List<TeamDTO> completedTeamList = teamservice.getCompletedTeamList(uid);
-		model.addAttribute("completedTeamList", completedTeamList);*/
+		
 		
 		// 관리자 공지사항 쪽지 리스트
 		List<NoticeDTO> headerNoticeList = notice_service.getNotices();
 		model.addAttribute("headerNoticeList", headerNoticeList);
 		
-		/*if(uid != null) {
-			List<TeamDTO> headerTeamList = teamservice.getTeamList(uid);
+		if(nname != null) {
+			// 진행중인 그룹 리스트
+			List<TeamDTO> headerTeamList = teamservice.getTeamList(nname);
 			model.addAttribute("headerTeamList", headerTeamList);
-				
+			model.addAttribute("teamList", headerTeamList);
+			
+
+			/*
+			// 완료된 그룹 리스트	
+			List<TeamDTO> completedTeamList = teamservice.getCompletedTeamList(nname);
+			model.addAttribute("completedTeamList", completedTeamList);
+			
 			// 그룹 초대/강퇴/완료 알람  쪽지 리스트
-			List<G_MyAlarmDTO> headerAlarmList = galarmservice.getAlarmList(uid);
-			model.addAttribute("headerAlarmList", headerAlarmList);
-		}*/
+			List<G_MyAlarmDTO> headerAlarmList = galarmservice.getAlarmList(nname);
+			model.addAttribute("headerAlarmList", headerAlarmList);*/
+		}
 		
 		return "mypage.myCategory";
 	}

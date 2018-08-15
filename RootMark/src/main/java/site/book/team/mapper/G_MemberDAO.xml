@@ -13,12 +13,12 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</delete>
 	
 	<insert id="insertGMember">
-		INSERT INTO G_MEMBER(UID, GID, GRID) VALUES(#{uid}, #{gid}, #{grid})
+		INSERT INTO G_MEMBER(NNAME, GID, GRID) VALUES(#{nname}, #{gid}, #{grid})
 	</insert>
 	<!--준석  -->
 	<select id="selectGMemberlist" resultType="site.book.team.dto.G_MemberDTO">
-		SELECT u.NNAME , gm.UID, gm.GID, gm.CCOUNT, gm.GRID, u.profile
-		FROM G_MEMBER gm join USER u ON gm.UID = u.UID
+		SELECT u.NNAME , gm.NNAME, gm.GID, gm.CCOUNT, gm.GRID, u.profile
+		FROM G_MEMBER gm join USER u ON gm.NNAME = u.NNAME
 		WHERE GID = #{gid}
 	</select>
 	
@@ -27,7 +27,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		SELECT r.GRNAME as GRNAME
 		FROM `G_MEMBER` m JOIN `G_ROLE` r 
 		ON m.GRID = r.GRID
-		WHERE UID=#{uid} AND GID=#{gid}
+		WHERE NNAME=#{nname} AND GID=#{gid}
 	</select>
 	
 	<insert id="sendInviteMemo">

@@ -171,12 +171,12 @@ public class TeamService {
 	}
 
 	// 내 그룹 리스트 가져오기
-	public List<TeamDTO> getTeamList(String uid) {
+	public List<TeamDTO> getTeamList(String nname) {
 		TeamDAO teamDAO = sqlsession.getMapper(TeamDAO.class);
 		List<TeamDTO> dtolist = null;
 				
 		try {
-			dtolist = teamDAO.getTeamList(uid);
+			dtolist = teamDAO.getTeamList(nname);
 		} catch (ClassNotFoundException | SQLException e) {
 			e.printStackTrace();
 		}

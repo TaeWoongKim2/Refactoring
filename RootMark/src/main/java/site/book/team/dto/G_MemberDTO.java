@@ -40,8 +40,8 @@ public class G_MemberDTO {
 		this.profile = profile;
 	}
 	
-	public G_MemberDTO(String uid, int gid) {
-		this.uid = uid;
+	public G_MemberDTO(String nname, int gid) {
+		this.nname = nname;
 		this.gid = gid;
 	}
 

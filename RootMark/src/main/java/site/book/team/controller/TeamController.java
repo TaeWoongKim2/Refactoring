@@ -106,12 +106,16 @@ public class TeamController {
 	
 	//함수 STRAT
 	
-	//명수
+	/*
+	작성자 : 정민재
+	작성일 : 2018.08.15
+	
+	 */
 	// 완료 그룹 리스트
 	@RequestMapping("getCompletedTeamList.do")
-	public View getCompletedTeamList(String uid ,  Model model) {
+	public View getCompletedTeamList(String nname ,  Model model) {
 		
-		List<TeamDTO> teamlist = teamservice.getCompletedTeamList(uid);
+		List<TeamDTO> teamlist = teamservice.getCompletedTeamList(nname);
 		
 		model.addAttribute("teamlist",teamlist);
 		return jsonview;
@@ -121,9 +125,9 @@ public class TeamController {
 	@RequestMapping("getTeamList.do")
 	public View getTeamList(HttpServletRequest req,  Model model) {
 		HttpSession session = req.getSession();
-		String uid = (String)session.getAttribute("info_userid");
+		String nname = (String)session.getAttribute("info_usernname");
 		
-		List<TeamDTO> teamlist = teamservice.getTeamList(uid);
+		List<TeamDTO> teamlist = teamservice.getTeamList(nname);
 
 		model.addAttribute("teamlist", teamlist);
 		return jsonview;
