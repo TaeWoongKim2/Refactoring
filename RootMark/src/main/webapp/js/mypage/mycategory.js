@@ -5,15 +5,16 @@ var edit_htag_node_id = null;
 var first_data = null;	//완료 그룹 모달 왼쪽 jstree
 var right_data = null;	//완료 그룹 모달 오른쪽 jstree
 var regex =/^(?:(?:(?:https?|ftp):)?\/\/)(?:\S+(?::\S*)?@)?(?:(?!(?:10|127)(?:\.\d{1,3}){3})(?!(?:169\.254|192\.168)(?:\.\d{1,3}){2})(?!172\.(?:1[6-9]|2\d|3[0-1])(?:\.\d{1,3}){2})(?:[1-9]\d?|1\d\d|2[01]\d|22[0-3])(?:\.(?:1?\d{1,2}|2[0-4]\d|25[0-5])){2}(?:\.(?:[1-9]\d?|1\d\d|2[0-4]\d|25[0-4]))|(?:(?:[a-z\u00a1-\uffff0-9]-*)*[a-z\u00a1-\uffff0-9]+)(?:\.(?:[a-z\u00a1-\uffff0-9]-*)*[a-z\u00a1-\uffff0-9]+)*(?:\.(?:[a-z\u00a1-\uffff]{2,})))(?::\d{2,5})?(?:[/?#]\S*)?$/;
-$(document).ready(function(){
 
+$(document).ready(function(){
 	/* mybookmark 가져오기 왼쪽 (폴더만 있는거) */
 	$.ajax({
 		url : "getCategoryList.do",
 		type:"POST",
 		dataType:"json",
-		success : function(data){	
-
+		success : function(data){
+			data = data.jstree;
+			console.log(data);
 			/*왼쪽 jstree 시작하기 jstree 생성하고 싶은 div의 id를 적어준다.*/					
 			$("#jstree_container")
 				.jstree({	
@@ -133,7 +134,7 @@ $(document).ready(function(){
 									"action" : function (obj) {
 										/*왼쪽 jstree 이름 수정하기 아래에 함수 있음*/
 										tree.edit($node);
-										$(".jstree-rename-input").attr("maxLength",33);
+										$(".jstree-rename-input").attr("maxLength", 33);
 									}
 								},
 								"remove" : {
@@ -191,7 +192,7 @@ $(document).ready(function(){
 	        		});   
 		    	})
 		    	.bind('delete_node.jstree',function(event,data){
-			    		/*왼쪽 jstree 폴더 삭제하기*/
+			    	/*왼쪽 jstree 폴더 삭제하기*/
 		    		var node_id = data.node.id;
 		    		var form = {node : node_id}
 
@@ -209,36 +210,37 @@ $(document).ready(function(){
 					})  
 		    	});
 		}
-	})
+	});
 			
 	/*왼쪽 위에 new category 버튼 클릭시 실행*/
 	$('#addroot').on('dblclick', function(){ return });
-	$('#addroot')
-		.on("click",function(){
-		
-			var tree = $("#jstree_container").jstree(true);
-				  
-			$.ajax({
-			
-				url : "addRoot.do",
-				type : "POST",
-				beforeSend : function(){
-					$('#loading').html("<p class='loading_p'>SAVING   <img src='../images/throbber.gif' class='loading_img' /></p>");
-				},
-				success : function(data){
-					$('#loading').html("");
-					var ubid = $.trim(data.ubid);
-					//root 카테로기 생성
-					tree.create_node( null , {text : "새 카테고리" , id : ubid , icon : "fa fa-folder"} ,"last",function(new_node){
-						new_node = ubid;
-						tree.edit(new_node); //생성과 동시에 이름 수정할 수 있게 함
-						$(".jstree-rename-input").attr("maxLength",33);
-						
-					});
-				}
-			})
+	$('#addroot').on("click",function(){
+		var tree = $("#jstree_container").jstree(true);
+		$.ajax({
+			url : "addRoot.do",
+			type : "POST",
+			beforeSend : function(){
+				$('#loading').html("<p class='loading_p'>SAVING...<img src='../images/throbber.gif' class='loading_img' /></p>");
+			},
+			afterSend : function() { 
+				$('#loading').html(""); 
+			},
+			success : function(data){
+				var ubid = $.trim(data.ubid);
+				
+				//root 카테로기 생성
+				tree.create_node(null, {text : "새 카테고리", id : ubid, icon : "fa fa-folder"}, "last", function(new_node) {
+					new_node = ubid;
+					
+					//생성과 동시에 이름 수정할 수 있게 함
+					tree.edit(new_node); 
+					$(".jstree-rename-input").attr("maxLength",33);
+					
+				});
+			}
 		})
-
+	});
+		
 	/*오른쪽 위에 url 추가하기 버튼 클릭시 실행 됨*/			
 	$("#addurl")
 		.on("click",function(){
@@ -367,7 +369,7 @@ $(document).ready(function(){
 								}
 							},
 							/*오른쪽 jstree 공유하기*/	
-							"sharing"	:{
+							"sharing": {
 								"separator_before": false,
 								"separator_after": false,
 								"label": "공유하기",

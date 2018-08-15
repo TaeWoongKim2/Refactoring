@@ -120,12 +120,12 @@ public class U_BookService {
 	
 	// 명수
 	// 마이북마크 왼쪽 폴더들만 보이는 JSTREE
-	public List<U_BookDTO> getCategoryList(String uid) {	//해당
+	public List<U_BookDTO> getCategoryList(String nname) {	//해당
 		
 		U_BookDAO dao = sqlsession.getMapper(U_BookDAO.class);
 		List<U_BookDTO> list = null;
 		try {
-			list = dao.getCategoryList(uid);
+			list = dao.getCategoryList(nname);
 		} catch (ClassNotFoundException | SQLException e) {
 			e.printStackTrace();
 		} 
@@ -135,12 +135,12 @@ public class U_BookService {
 
 	// 마이북마크 왼쪽 JSTREE에서 root 카테고리 추가
 	@Transactional
-	public int insertRootFolder(String uid) {
+	public int insertRootFolder(String nname) {
 		
 		U_BookDAO dao = sqlsession.getMapper(U_BookDAO.class);
 		int maxid = 0;
 		try {
-			dao.insertRootFolder(uid);
+			dao.insertRootFolder(nname);
 			maxid = dao.getMaxId();
 			
 		} catch (ClassNotFoundException | SQLException e) {
@@ -166,12 +166,12 @@ public class U_BookService {
 
 	// JSTREE 폴더 혹은 URL 추가
 	@Transactional
-	public int addFolderOrUrl(U_BookDTO dto) {
+	public int addFolderOrUrl(U_BookDTO ubook) {
 
 		U_BookDAO dao = sqlsession.getMapper(U_BookDAO.class);
 		int result = 0;
 		try {
-			dao.addFolderOrUrl(dto);
+			dao.addFolderOrUrl(ubook);
 			result = dao.getMaxId();
 		} catch (ClassNotFoundException | SQLException e) {
 			e.printStackTrace();
@@ -277,7 +277,7 @@ public class U_BookService {
 				dto.setUrl(url);
 				dto.setUrlname((String)jarr.getJSONObject(i).get("urlname"));
 				dto.setPid(Integer.valueOf((String)jarr.getJSONObject(i).get("pid")));
-				dto.setUid(uid);
+				dto.setNname(uid);
 				
 				list.add(dto);
 			}

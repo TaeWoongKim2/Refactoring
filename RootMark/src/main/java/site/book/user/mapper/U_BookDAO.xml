@@ -29,7 +29,7 @@
 	
 	<!-- 명수 -->
 	<select id="getCategoryList" resultType="site.book.user.dto.U_BookDTO">
-		SELECT * FROM U_BOOK WHERE UID=#{uid}  AND URL IS NULL  
+		SELECT * FROM U_BOOK WHERE NNAME=#{nname}  AND URL IS NULL  
 	</select>
 
 	<select id="getUrl" resultType="site.book.user.dto.U_BookDTO">
@@ -37,8 +37,7 @@
 	</select>
 	
 	<insert id="insertRootFolder">
-		INSERT INTO U_BOOK (URLNAME,REGDATE,VIEW,UID)
-			VALUES ('카테고리 시작',SYSDATE(), 0, #{uid})
+		INSERT INTO U_BOOK (URLNAME,REGDATE,VIEW,NNAME) VALUES ('카테고리 시작', SYSDATE(), 0, #{nname})
 	</insert>
 	
 	<select id="getMaxId" resultType="int">
@@ -52,16 +51,16 @@
 	<insert id="addFolderOrUrl" parameterType="site.book.user.dto.U_BookDTO">
 	
 		<if test="abid == 0 and htag !=null">
-			INSERT INTO U_BOOK(URL,URLNAME,REGDATE,VIEW,UID,PID,SNAME,HTAG,SDATE)
-			VALUES(#{url},#{urlname},SYSDATE(),0,#{uid},#{pid},#{sname},#{htag},SYSDATE())
+			INSERT INTO U_BOOK(URL,URLNAME,REGDATE,VIEW,NNAME,PID,SNAME,HTAG,SDATE)
+			VALUES(#{url},#{urlname},SYSDATE(),0,#{nname},#{pid},#{sname},#{htag},SYSDATE())
 		</if>
 		<if test="abid == 0 and htag == null">
-		INSERT INTO U_BOOK(URL,URLNAME,REGDATE,VIEW,UID,PID)
-			VALUES(#{url},#{urlname},SYSDATE(),0,#{uid},#{pid})
+		INSERT INTO U_BOOK(URL,URLNAME,REGDATE,VIEW,NNAME,PID)
+			VALUES(#{url},#{urlname},SYSDATE(),0,#{nname},#{pid})
 		</if>
 		<if test="abid != 0">
-		INSERT INTO U_BOOK(URL,URLNAME,REGDATE,VIEW,UID,PID,SNAME,HTAG,SDATE,ABID)
-			VALUES(#{url},#{urlname},SYSDATE(),0,#{uid},#{pid},#{sname},#{htag},#{sdate},#{abid})
+		INSERT INTO U_BOOK(URL,URLNAME,REGDATE,VIEW,NNAME,PID,SNAME,HTAG,SDATE,ABID)
+			VALUES(#{url},#{urlname},SYSDATE(),0,#{nname},#{pid},#{sname},#{htag},#{sdate},#{abid})
 		</if>
 	</insert>
 	

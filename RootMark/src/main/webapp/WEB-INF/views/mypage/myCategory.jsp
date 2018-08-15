@@ -90,8 +90,7 @@ function completedGroup(gid) {
 			<div class="heading my-bookmark-list">
 				<i class="material-icons md-32">archive</i><span
 					class="mypage-title">마이 북마크</span>
-				<button type="button" class="my-boomark-btn" id="addroot">New
-					Category</button>
+				<button type="button" class="my-boomark-btn" id="addroot">New Category</button>
 			</div>
 			<div
 				style="background-color: white; border-radius: 15px 15px 15px 15px" class="testing">

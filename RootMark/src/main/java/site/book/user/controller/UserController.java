@@ -45,6 +45,7 @@ import site.book.team.service.G_AlarmService;
 import site.book.team.service.G_BookService;
 import site.book.team.service.G_MemberService;
 import site.book.team.service.TeamService;
+import site.book.user.dto.JsTreeDTO;
 import site.book.user.dto.U_BookDTO;
 import site.book.user.service.U_BookService;
 import site.book.user.service.UserService;
@@ -113,10 +114,9 @@ public class UserController {
 	
 	// 공유 체크 하지 않은 URL 추가하기
 	@RequestMapping("addtomybookmark.do")
-	public View addUrlNotShare(U_BookDTO book ,HttpServletRequest req, Model model) {
-		HttpSession session = req.getSession();
-        String uid = (String)session.getAttribute("info_userid");
-        book.setUid(uid);
+	public View addUrlNotShare(U_BookDTO book ,HttpServletRequest req, HttpSession session, Model model) {
+        String nname = (String)session.getAttribute("info_usernname");
+        book.setNname(nname);
         //System.out.println(book);
         
         int result = u_bookservice.addToMyBookmark(book);
@@ -175,13 +175,11 @@ public class UserController {
 	
 	// 공유 체크 하지 않은 URL 추가하기
 	@RequestMapping("addUrlNotShare.do")
-	public void addUrlNotShare(U_BookDTO dto ,HttpServletRequest req, HttpServletResponse res) {
-		HttpSession session = req.getSession();
-        String uid = (String)session.getAttribute("info_userid");
+	public void addUrlNotShare(HttpServletRequest req, HttpServletResponse res, HttpSession session, U_BookDTO ubook) {
+        String nname = (String)session.getAttribute("info_usernname");
         
-        dto.setUid(uid);
-        
-		int result = u_bookservice.addFolderOrUrl(dto);
+        ubook.setNname(nname);
+		int result = u_bookservice.addFolderOrUrl(ubook);
 		
 		try {
 			res.getWriter().println(result);
@@ -257,65 +255,48 @@ public class UserController {
 	
 	//해당 유저의 카테고리를 보내준다.
 	@RequestMapping("getCategoryList.do")	
-	public void getCategoryList(HttpServletRequest req , HttpServletResponse res) {
-		
-		res.setCharacterEncoding("UTF-8");
-		
-		HttpSession session = req.getSession();
-        String uid = (String)session.getAttribute("info_userid");
-        
-		JSONArray jsonArray = new JSONArray();	
-		List<U_BookDTO> list = u_bookservice.getCategoryList(uid);
+	public View getCategoryList(HttpServletRequest req, HttpSession session, Model model) {
+
+        String nname = (String)session.getAttribute("info_usernname");	
+		List<U_BookDTO> list = u_bookservice.getCategoryList(nname);
 		
 		if(list.size() ==0) {
+			// 처음 사용자는 첫 카테고리를  생성.
+			int ubid = u_bookservice.insertRootFolder(nname);
 			
-			JSONObject jsonobject = new JSONObject();
-			
-			// 처음 가입자는 첫 카테고리를  생성해 준다.
-			int ubid = u_bookservice.insertRootFolder(uid);
-			
-			//처음 가입한 유저일 경우 root폴더 생성해 준다.
-				
-			jsonobject.put("id", ubid);
-			jsonobject.put("parent", "#");
-			jsonobject.put("text", "첫 카테고리");
-			jsonobject.put("icon", "fa fa-folder");
-			jsonobject.put("uid", uid);
-			jsonArray.put(jsonobject);
-				
+			JsTreeDTO jstree = new JsTreeDTO(Integer.toString(ubid), nname);
+			model.addAttribute("jstree", jstree);
+		
 		}else {
+			// 해당 회원의 북마크 리스트 JsTree 형식으로 가공.
+			List<JsTreeDTO> jstreeList = new ArrayList<>();
 			
-			for(int i =0;i<list.size();i++) {
+			for(int i = 0; i < list.size(); i++) {
+				JsTreeDTO jstree = new JsTreeDTO();
+				String parentid = Integer.toString( list.get(i).getPid() );
 				
-				JSONObject jsonobject = new JSONObject();
+				// 첫 카테고리 또는 자식 카테고리 분류
+				String parent = (parentid.equals("0") || parentid.equals("")) ? "#" : parentid;
+				jstree.setParent(parent);
 				
-				String parentid = String.valueOf(list.get(i).getPid());
+				// Folder 또는 Favicon 추가
+				String icon = (list.get(i).getUrl() == null) ? "fa fa-folder" : "https://www.google.com/s2/favicons?domain="+list.get(i).getUrl();
+				jstree.setIcon(icon);
 				
-				if(parentid.equals("0") || parentid.equals(""))
-					jsonobject.put("parent", "#");
-				else
-					jsonobject.put("parent", parentid);
+				// 나머지 JsTree 요소 셋팅
+				jstree.setId( Integer.toString(list.get(i).getUbid()) );
+				jstree.setText( list.get(i).getUrlname() );
+				jstree.setUid( nname );
+				jstree.setSname( list.get(i).getSname() );
+				jstree.setHtag( list.get(i).getHtag() );
 				
-				if(list.get(i).getUrl() == null)
-					jsonobject.put("icon", "fa fa-folder");	//favicon 추가
-				else {
-					jsonobject.put("icon", "https://www.google.com/s2/favicons?domain="+list.get(i).getUrl());	//favicon 추가
-				}
-				jsonobject.put("id", list.get(i).getUbid());
-				jsonobject.put("text", list.get(i).getUrlname());
-				jsonobject.put("uid",uid);
-				jsonobject.put("sname", list.get(i).getSname());
-				jsonobject.put("htag", list.get(i).getHtag());
-				
-				jsonArray.put(jsonobject);
-				
+				jstreeList.add(jstree);
 			}
+			
+			model.addAttribute("jstree", jstreeList);
 		}
-		try {
-			res.getWriter().println(jsonArray);
-		}catch (JSONException | IOException e) {
-			e.printStackTrace();
-		}
+
+		return jsonview;
 	}
 	
 	//해당 노드의 url 추출
@@ -377,12 +358,11 @@ public class UserController {
 	
 	//폴더 & url & 공유일 경우 공유로 추가
 	@RequestMapping("addFolderOrUrl.do")
-	public View addFolder(U_BookDTO dto ,HttpServletRequest req, Model model ) {
-		
-		HttpSession session = req.getSession();
-        String uid = (String)session.getAttribute("info_userid");
+	public View addFolder(U_BookDTO dto ,HttpServletRequest req, HttpSession session, Model model ) {
+
+        String nname = (String)session.getAttribute("info_usernname");
         
-        dto.setUid(uid);
+        dto.setNname(nname);
 		int result = u_bookservice.addFolderOrUrl(dto);
 		model.addAttribute("ubid", result);
 		
@@ -451,13 +431,12 @@ public class UserController {
 	
 	//ROOT 카테고리 추가 
 	@RequestMapping("addRoot.do")
-	public View addRoot(HttpServletRequest req , Model model) {
+	public View addRoot(HttpServletRequest req, HttpSession session, Model model) {
 		
-		HttpSession session = req.getSession();
-        String uid = (String)session.getAttribute("info_userid");
-		int ubid = u_bookservice.insertRootFolder(uid);
-		
-		model.addAttribute("ubid",ubid);
+        String nname = (String)session.getAttribute("info_usernname");
+        
+		int ubid = u_bookservice.insertRootFolder(nname);
+		model.addAttribute("ubid", ubid);
 		
 		return jsonview;
 	}
