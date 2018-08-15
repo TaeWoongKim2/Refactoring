@@ -82,28 +82,28 @@ public class SocialController {
 		List<TopDTO> g_top5 = top_service.getGTop5();
 		model.addAttribute("g_top5", g_top5);
 		
-		/*u_booklist start*/
+		/*u_booklist start
 		List<S_U_BookDTO> u_list= u_bookservice.getSocialBookmarkList();
 		model.addAttribute("u_list",u_list);
 		
 		List<S_TeamDTO> g_list=teamservice.getSocialGroupList();
-		model.addAttribute("g_list", g_list);
+		model.addAttribute("g_list", g_list);*/
 		
 		HttpSession session = req.getSession();
 		String uid = (String)session.getAttribute("info_userid");
 		
-		if(uid != null) {
-			List<TeamDTO> headerTeamList = teamservice.getTeamList(uid);
-			model.addAttribute("headerTeamList", headerTeamList);
-		}
-		
-		// 그룹 초대/강퇴/완료 알람  쪽지 리스트
-		List<G_MyAlarmDTO> headerAlarmList = galarmservice.getAlarmList(uid);
-		model.addAttribute("headerAlarmList", headerAlarmList);
-		
+		// 관리자 공지사항 쪽지 리스트
 		List<NoticeDTO> headerNoticeList = notice_service.getNotices();
 		model.addAttribute("headerNoticeList", headerNoticeList);
-		/*u_booklist end*/
+		
+		/*if(uid != null) {
+			List<TeamDTO> headerTeamList = teamservice.getTeamList(uid);
+			model.addAttribute("headerTeamList", headerTeamList);
+				
+			// 그룹 초대/강퇴/완료 알람  쪽지 리스트
+			List<G_MyAlarmDTO> headerAlarmList = galarmservice.getAlarmList(uid);
+			model.addAttribute("headerAlarmList", headerAlarmList);
+		}*/
 		
 		return "social.social";
 	}
