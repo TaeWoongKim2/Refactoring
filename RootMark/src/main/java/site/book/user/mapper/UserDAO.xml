@@ -34,7 +34,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</select>
 	
 	<select id="getUser" resultType="site.book.user.dto.UserDTO">
-        SELECT UID, NNAME, PWD, ENABLED, REGDATE, PROFILE FROM `USER` WHERE UID=#{uid}
+        <!-- SELECT UID, NNAME, PWD, ENABLED, REGDATE, PROFILE FROM `USER` WHERE UID=#{uid} -->
+        SELECT u.UID, ui.NNAME, u.PWD, u.ENABLED, u.REGDATE, u.PROFILE 
+		FROM `USER` u JOIN `USERINFO` ui 
+			ON u.UID = ui.UID
+		WHERE u.UID = #{uid};
     </select>
     
     <update id="editUser">
