@@ -351,6 +351,46 @@ public class UserController {
 		}
 	}
 	
+	//완료된 그룹의 북마크 가져오기
+	@RequestMapping("getCompletedTeamBookmark.do")
+	public void getCompletedTeamBookmark(HttpServletResponse res, String gid, Model model) {
+		
+		JSONArray jsonArray = new JSONArray();	
+		Map<String, String> href = new HashMap<>();
+		
+		List<G_BookDTO> list = g_bookservice.getCompletedTeamBookmark(Integer.parseInt(gid));
+		
+		for(int i = 0; i < list.size(); i++) {
+			
+			JSONObject jsonobject = new JSONObject();
+			
+			String parentid = String.valueOf(list.get(i).getPid());
+			
+			if(parentid.equals("0") || parentid.equals(""))
+				jsonobject.put("parent", "#");
+			else
+				jsonobject.put("parent", parentid);
+			
+			if(list.get(i).getUrl() == null)
+				jsonobject.put("icon", "fa fa-folder");
+			else
+				jsonobject.put("icon", "https://www.google.com/s2/favicons?domain=" + list.get(i).getUrl());
+			
+			href.put("href", list.get(i).getUrl());
+			jsonobject.put("a_attr", href);
+			jsonobject.put("id", list.get(i).getGbid());
+			jsonobject.put("text", list.get(i).getUrlname());
+			
+			jsonArray.put(jsonobject);
+		}
+		
+		try {
+			res.getWriter().println(jsonArray);
+		} catch (IOException e) {			
+			e.printStackTrace();
+		}
+		
+	}
 	
 	//urlname 수정
 	@RequestMapping("updateNodeText.do")	
@@ -445,48 +485,6 @@ public class UserController {
 		model.addAttribute("ubid", ubid);
 		
 		return jsonview;
-	}
-	
-	//완료된 그룹의 북마크 가져오기
-	@RequestMapping("getCompletedTeamBookmark.do")
-	public void getCompletedTeamBookmark(HttpServletResponse res, String gid) {
-		
-		res.setCharacterEncoding("UTF-8");
-		
-		JSONArray jsonArray = new JSONArray();	
-		HashMap<String, String> href = new HashMap();
-		List<G_BookDTO> list = g_bookservice.getCompletedTeamBookmark(Integer.parseInt(gid));
-		
-		for(int i =0; i<list.size(); i++) {
-			
-			JSONObject jsonobject = new JSONObject();
-			
-			String parentid = String.valueOf(list.get(i).getPid());
-			
-			if(parentid.equals("0") || parentid.equals(""))
-				jsonobject.put("parent", "#");
-			else
-				jsonobject.put("parent", parentid);
-			
-			if(list.get(i).getUrl() == null)
-				jsonobject.put("icon", "fa fa-folder");
-			else
-				jsonobject.put("icon", "https://www.google.com/s2/favicons?domain="+list.get(i).getUrl());
-			
-			href.put("href", list.get(i).getUrl());
-			jsonobject.put("a_attr", href);
-			jsonobject.put("id", list.get(i).getGbid());
-			jsonobject.put("text", list.get(i).getUrlname());
-			
-			jsonArray.put(jsonobject);
-		}
-		
-		try {
-			res.getWriter().println(jsonArray);
-		} catch (IOException e) {			
-			e.printStackTrace();
-		}
-		
 	}
 	
 	//완료된 그룹 url 내 것으로 보내기
