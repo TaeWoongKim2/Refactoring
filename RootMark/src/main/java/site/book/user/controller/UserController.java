@@ -240,8 +240,6 @@ public class UserController {
 		/*List<TeamDTO> teamList = teamservice.getTeamList(nname);
 		model.addAttribute("teamList", teamList);*/
 		
-		
-		
 		// 관리자 공지사항 쪽지 리스트
 		List<NoticeDTO> headerNoticeList = notice_service.getNotices();
 		model.addAttribute("headerNoticeList", headerNoticeList);
@@ -255,10 +253,6 @@ public class UserController {
 			// 완료된 그룹 리스트	
 			List<TeamDTO> completedTeamList = teamservice.getCompletedTeamList(nname);
 			model.addAttribute("completedTeamList", completedTeamList);
-<<<<<<< Updated upstream
-			
-=======
->>>>>>> Stashed changes
 			/*
 			// 그룹 초대/강퇴/완료 알람  쪽지 리스트
 			List<G_MyAlarmDTO> headerAlarmList = galarmservice.getAlarmList(nname);
