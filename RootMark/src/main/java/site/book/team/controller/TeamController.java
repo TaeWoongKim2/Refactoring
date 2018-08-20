@@ -72,7 +72,6 @@ public class TeamController {
 	
 	//변수 STRAT
 	
-	//명수
 	@Autowired
 	private TeamService teamservice;
 	
@@ -95,14 +94,8 @@ public class TeamController {
 	@Autowired
 	private G_AlarmService galarmservice;
 	
-	//준석
 	@Autowired
 	private G_MemberService g_memberservice;
-	
-	
-	
-	//변수 END
-	
 	
 	//함수 STRAT
 	
@@ -441,7 +434,6 @@ public class TeamController {
 	@RequestMapping("giveGorupRole.do")	
 	public View giveGorupRole(HttpServletRequest req, HttpSession session, Model model, G_MemberDTO member_auth, String key) {
 		
-		//System.out.println(key + ": " + member_auth);
 		// 권한 부여 대상이 그룹장인 경우 return
 		if( member_auth.getGrid()  == 1 ) {
 			model.addAttribute("result", "master");
@@ -470,7 +462,6 @@ public class TeamController {
 		return jsonview;
 	}
 	
-	//준석
 	//그룹 페이지  이동
 	@RequestMapping("main.do")
 	public String movegroup(String gid, String gname, Model model, HttpServletRequest req) {
@@ -556,42 +547,6 @@ public class TeamController {
         	String temp = new String(fileBytes, "UTF-8");
         	list = Arrays.asList(temp.split("⊙"));
     	}
-    	
-    	/*char singleChar;
-    	String str = "";
-    	for(byte b : fileBytes) {
-        	singleChar = (char) b;
-        	if(singleChar != '\n') {
-        		str += singleChar;
-        	}else {
-        		list.add(str);
-        		str = "";
-        		
-        	}
-        	System.out.print(singleChar);
-        }*/
-    	
-    	
-    	
-    	/*if(Files.exists(path)) {
-    		FileInputStream fileInputStream = new FileInputStream(fileName);
-        	
-        	InputStreamReader inputStreamReader = new InputStreamReader(fileInputStream, "UTF-8");
-    		
-        	try(BufferedReader bufferedReader = new BufferedReader(inputStreamReader)) {
-        		String line;
-        		while((line = bufferedReader.readLine()) != null) {
-        			list.add(line);
-        		}
-        	}
-    	}*/
-
-    	/*List<String> fileLinesList = Files.readAllLines(path, StandardCharsets.UTF_8);
-    	
-    	for(String line : fileLinesList) {
-    		list.add(line);
-    		System.out.println(line);
-    	}*/
     	
 		return list;
 	}
