@@ -131,10 +131,10 @@ public class UserController {
 	
 	// 그룹 나가기
 	@RequestMapping("leaveGroup.do")
-	public View leaveGroup(HttpServletRequest req, G_MemberDTO member, Model model) {
-		HttpSession session = req.getSession();
-		String uid = (String)session.getAttribute("info_userid");
-		member.setUid(uid);
+	public View leaveGroup(HttpServletRequest req, HttpSession session, G_MemberDTO member, Model model) {
+		
+		String nname = (String)session.getAttribute("info_usernname");
+		member.setNname(nname);
 		
 		int row = g_memberservice.leaveGroup(member);
 		
