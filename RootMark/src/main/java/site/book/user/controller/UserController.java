@@ -251,12 +251,11 @@ public class UserController {
 			model.addAttribute("headerTeamList", headerTeamList);
 			model.addAttribute("teamList", headerTeamList);
 			
-
-			/*
 			// 완료된 그룹 리스트	
 			List<TeamDTO> completedTeamList = teamservice.getCompletedTeamList(nname);
 			model.addAttribute("completedTeamList", completedTeamList);
 			
+			/*
 			// 그룹 초대/강퇴/완료 알람  쪽지 리스트
 			List<G_MyAlarmDTO> headerAlarmList = galarmservice.getAlarmList(nname);
 			model.addAttribute("headerAlarmList", headerAlarmList);*/
