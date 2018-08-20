@@ -355,6 +355,8 @@ public class UserController {
 	@RequestMapping("getCompletedTeamBookmark.do")
 	public void getCompletedTeamBookmark(HttpServletResponse res, String gid, Model model) {
 		
+		res.setCharacterEncoding("UTF-8");
+		
 		JSONArray jsonArray = new JSONArray();	
 		Map<String, String> href = new HashMap<>();
 		
