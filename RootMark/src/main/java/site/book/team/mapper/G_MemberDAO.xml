@@ -9,7 +9,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</delete>
 	
 	<delete id="leaveGroup">
-		DELETE FROM G_MEMBER WHERE UID=#{uid} and GID = #{gid}
+		DELETE FROM G_MEMBER WHERE NNAME=#{nname} and GID = #{gid}
 	</delete>
 	
 	<insert id="insertGMember">
