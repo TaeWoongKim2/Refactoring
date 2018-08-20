@@ -49,7 +49,7 @@ $(function() {
 				}).jstree({	
 						"core": {
 							"dblclick_toggle" : false, 	// 두번 클릭해서 폴더여는거 false
-							'data' : data, 				//ajax로 가져온 json data jstree에 넣어주기
+							'data' : data.jstree, 				//ajax로 가져온 json data jstree에 넣어주기
 							'themes':{
 								'name' : 'proton', 		//테마 이름
 								'responsive' : true,
@@ -272,7 +272,7 @@ $(document).ready(function(){
 				//jstree 시작, jstree를 뿌려주고 싶은 div의 id를 적어준다
 				$("#jstree-to-right-group").jstree({
 					"core": {
-						'data' : data, 				//ajax로 가져온 json data jstree에 넣어주기
+						'data' : data.jstree, 				//ajax로 가져온 json data jstree에 넣어주기
 						'themes': {
 							'name' : 'proton', 		//테마 이름
 							'responsive' : true,
