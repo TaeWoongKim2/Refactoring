@@ -22,7 +22,6 @@ function open_completed_group_modal(gname, gid){
 		dataType :"json",
 		success : function(obj){
 			//모달 왼쪽 jstree에 data 넣어주기
-			first_data = obj;
 			$('#jstree-from-left').jstree().deselect_all(true);
 			$('#jstree-from-left').jstree(true).settings.core.data = obj;
 			$('#jstree-from-left').jstree(true).refresh();
@@ -69,8 +68,8 @@ $(document).ready(function(){
 			type:"POST",
 			dataType:"json",
 			success : function(data){
-				right_data = data;
-				$('#jstree-to-right').jstree(true).settings.core.data = data;
+				
+				$('#jstree-to-right').jstree(true).settings.core.data = data.jstree;
 				$('#jstree-to-right').jstree(true).refresh();
 				$('#jstree-to-right').jstree("open_all");
 				
