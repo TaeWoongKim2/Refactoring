@@ -14,15 +14,15 @@ package site.book.team.dto;
  */
 public class G_JstreeDTO {
 	private int id;
-	private String uid;
+	private String nname;
 	private String parent;
 	private String text;
 	private String icon;
 	
 	public G_JstreeDTO() {}
-	public G_JstreeDTO(int id, String uid, String parent, String text, String icon) {
+	public G_JstreeDTO(int id, String nname, String parent, String text, String icon) {
 		this.id = id;
-		this.uid = uid;
+		this.nname = nname;
 		this.parent = parent;
 		this.text = text;
 		this.icon = icon;
@@ -30,8 +30,8 @@ public class G_JstreeDTO {
 
 	public int getId() { return id; }
 	public void setId(int id) { this.id = id; }
-	public String getUid() { return uid; }
-	public void setUid(String uid) { this.uid = uid; }
+	public String getNname() {return nname;}
+	public void setNname(String nname) {this.nname = nname;}
 	public String getParent() { return parent; }
 	public void setParent(String parent) { this.parent = parent; }
 	public String getText() { return text; }
@@ -41,7 +41,7 @@ public class G_JstreeDTO {
 
 	@Override
 	public String toString() {
-		return "G_JstreeDTO [id=" + id + ", uid=" + uid + ", parent=" + parent
+		return "G_JstreeDTO [id=" + id + ", nname=" + nname + ", parent=" + parent
 				+ ", text=" + text + ", icon=" + icon + "]";
 	} 
 }

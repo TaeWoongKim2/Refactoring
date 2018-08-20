@@ -284,7 +284,7 @@ public class TeamController {
 	@RequestMapping("getGroupCategoryList.do")	
 	public View getGroupCategoryList(HttpServletRequest req, Model model, String gid) {
 		HttpSession session = req.getSession();
-        String uid = (String)session.getAttribute("info_userid");
+        String nname = (String)session.getAttribute("info_usernname");
         
 		List<G_BookDTO> list = gbookservice.getGroupCategoryList(gid);
 		JSONArray jsonArray = new JSONArray();
@@ -295,14 +295,14 @@ public class TeamController {
 			// Transacional
 			// result[0] : max(ubid) +1 한 값
 			// result[1] : 그룹에 카테고리가 없을 경우, 기본 카테고리를  생성해 결과 값
-			int result = gbookservice.getMaxIDandInsertRootFolder(gid, uid);
+			int result = gbookservice.getMaxIDandInsertRootFolder(gid, nname);
 			
 			if(result > 0 ) {	
 				gtree.setId(result);
 				gtree.setParent("#");
 				gtree.setText("ROOT");
 				gtree.setIcon("fa fa-folder");
-				gtree.setUid(uid);
+				gtree.setNname(nname);
 
 				jsonArray.put(gtree);
 			}
@@ -321,7 +321,7 @@ public class TeamController {
 				gtree.setId(list.get(i).getGbid());
 				gtree.setText(list.get(i).getUrlname());
 				gtree.setIcon("fa fa-folder");
-				gtree.setUid(uid);
+				gtree.setNname(nname);
 
 				jsonArray.put(gtree);
 			}
