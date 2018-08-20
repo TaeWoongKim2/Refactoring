@@ -237,9 +237,6 @@ public class UserController {
 		HttpSession session = req.getSession();
 		String nname = (String)session.getAttribute("info_usernname");
 		
-		/*List<TeamDTO> teamList = teamservice.getTeamList(nname);
-		model.addAttribute("teamList", teamList);*/
-		
 		// 관리자 공지사항 쪽지 리스트
 		List<NoticeDTO> headerNoticeList = notice_service.getNotices();
 		model.addAttribute("headerNoticeList", headerNoticeList);
