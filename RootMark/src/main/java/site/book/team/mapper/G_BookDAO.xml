@@ -27,7 +27,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</select>
 	
 	<insert id="insertRootFolder">
-		INSERT INTO G_BOOK (URLNAME, REGDATE, GID, UID)
+		INSERT INTO G_BOOK (URLNAME, REGDATE, GID, NNAME)
 		VALUES ('ROOT', SYSDATE(), #{0}, #{1})
 	</insert>
 	

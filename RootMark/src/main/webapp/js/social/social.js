@@ -599,13 +599,16 @@ $(document).ready(function(){
 
     	$.ajax({
     		url : "/bit/user/getCategoryList.do",
-			type:"POST",
+			type:"post",
 			dataType:"json",
 			success : function(data){
 				//jstree 시작, jstree를 뿌려주고 싶은 div의 id를 적어준다
+				console.log("성공");
+				console.log(data.jstree);
+				
 				$("#jstree-to-right-all").jstree({
 					"core": {
-						'data' : data, 				//ajax로 가져온 json data jstree에 넣어주기
+						"data" : data.jstree, 				//ajax로 가져온 json data jstree에 넣어주기
 						'themes': {
 							'name' : 'proton', 		//테마 이름
 							'responsive' : true,
@@ -617,6 +620,8 @@ $(document).ready(function(){
 	 				var id = data.node.id;
 	 				$('.indishare-userpid-left').val(id);	
 				});
+				
+				$('#jstree-to-right-all').jstree(true).refresh();
 			}
     	});	
     });

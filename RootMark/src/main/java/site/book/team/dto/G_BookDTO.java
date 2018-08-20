@@ -21,14 +21,12 @@ public class G_BookDTO {
 	private int gid;
 	private int pid;
 	private int abid;
-	private String uid;
+	private String nname;
 	
 	public G_BookDTO() {}
 
-	
-	
 	public G_BookDTO(int gbid, String url, String urlname, String regdate, String view, int gid, int pid, int abid,
-			String uid) {
+			String nname) {
 		super();
 		this.gbid = gbid;
 		this.url = url;
@@ -38,9 +36,8 @@ public class G_BookDTO {
 		this.gid = gid;
 		this.pid = pid;
 		this.abid = abid;
-		this.uid = uid;
+		this.nname = nname;
 	}
-
 
 	//Getters and Setters
 	public int getGbid() {return gbid;}
@@ -59,16 +56,13 @@ public class G_BookDTO {
 	public void setPid(int pid) {this.pid = pid;}
 	public int getAbid() {return abid;}
 	public void setAbid(int abid) {this.abid = abid;}
-	public String getUid() {return uid;}
-	public void setUid(String uid) {this.uid = uid;}
-
-
+	public String getNname() {return nname;}
+	public void setNname(String nname) {this.nname = nname;}
 
 	@Override
 	public String toString() {
 		return "G_BookDTO [gbid=" + gbid + ", url=" + url + ", urlname=" + urlname + ", regdate=" + regdate + ", view="
-				+ view + ", gid=" + gid + ", pid=" + pid + ", abid=" + abid + ", uid=" + uid + "]";
+				+ view + ", gid=" + gid + ", pid=" + pid + ", abid=" + abid + ", nname=" + nname + "]";
 	}
-
 
 }

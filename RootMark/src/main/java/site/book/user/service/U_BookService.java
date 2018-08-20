@@ -260,7 +260,7 @@ public class U_BookService {
 	}
 
 	// 완료된 그룹 URL 추가
-	public int insertUrlFromCompletedGroup(JSONArray jarr , String uid ) {
+	public int insertUrlFromCompletedGroup(JSONArray jarr , String nname ) {
 
 		U_BookDAO dao = sqlsession.getMapper(U_BookDAO.class);
 		
@@ -277,7 +277,7 @@ public class U_BookService {
 				dto.setUrl(url);
 				dto.setUrlname((String)jarr.getJSONObject(i).get("urlname"));
 				dto.setPid(Integer.valueOf((String)jarr.getJSONObject(i).get("pid")));
-				dto.setNname(uid);
+				dto.setNname(nname);
 				
 				list.add(dto);
 			}

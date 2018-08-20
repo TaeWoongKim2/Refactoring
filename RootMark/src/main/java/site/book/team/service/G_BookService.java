@@ -86,12 +86,12 @@ public class G_BookService {
 	// 현재  GBID(Group Bookmark ID)의  max + 1  
 	// 그룹 처음 생성 시, 루트 폴더 생성
 	@Transactional
-	public int getMaxIDandInsertRootFolder(String gid, String uid) {
+	public int getMaxIDandInsertRootFolder(String gid, String nname) {
 		G_BookDAO dao = sqlsession.getMapper(G_BookDAO.class);
 		int isInsert = 0;
 		try {
 			int gbid = dao.getMaxGBID();
-			isInsert = dao.insertRootFolder(gid, uid);
+			isInsert = dao.insertRootFolder(gid, nname);
 			// Root 폴터 생성 성공이라면, 
 			if(isInsert > 0) {
 				isInsert = gbid; // GBID return;
@@ -164,7 +164,7 @@ public class G_BookService {
 					map.put("href", list.get(i).getUrl());
 					jsonobject.put("id", list.get(i).getGbid());
 					jsonobject.put("text", list.get(i).getUrlname());
-					jsonobject.put("uid",list.get(i).getUid());
+					jsonobject.put("nname",list.get(i).getNname());
 					jsonobject.put("a_attr",map);			
 					jsonArray.put(jsonobject);
 					
