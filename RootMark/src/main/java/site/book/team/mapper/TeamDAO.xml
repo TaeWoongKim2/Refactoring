@@ -36,16 +36,16 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</update>
 	
 	<select id="getGroupMember" resultType="site.book.team.dto.G_AlarmDTO">
-		select (select #{fromid} from DUAL) as FROMID, NNAME as toid, GID 
+		select (select #{fromid} from DUAL) as FROMID, NNAME as TOID, GID 
 		from G_MEMBER
 		where GID=#{gid};
 	</select>
 	
 	<insert id="sendCompletedMemo" parameterType="java.util.List">
-		INSERT INTO G_ALARM(FROMID, TOID, GID, GAID, SENDDATE) 
+		INSERT INTO G_ALARM(TOID, FROMID, GID, GAID, SENDDATE) 
 		VALUES
 		<foreach collection="list" item="element" separator=",">
-		( #{element.fromid}, #{element.toid}, #{element.gid}, 2, sysdate() )
+		( #{element.toid}, #{element.fromid}, #{element.gid}, 2, sysdate() )
 		</foreach>
 	</insert>
 	
@@ -53,9 +53,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		SELECT GID, GNAME, HTAG, REGDATE, DUEDATE FROM TEAM WHERE gid = #{gid}
 	</select>
 	
-	<!-- 명수 -->
+	<!-- 태웅, 민재 -->
 	<select id="getCompletedTeamList" resultType="site.book.team.dto.TeamDTO">
-		SELECT * FROM TEAM t JOIN G_MEMBER gm ON t.gid = gm.gid WHERE NNAME = #{0} AND HTAG IS NOT NULL
+		SELECT * FROM TEAM t JOIN G_MEMBER gm ON t.gid = gm.gid WHERE NNAME = #{nname} AND HTAG IS NOT NULL
 	</select>
 	
 	<select id="getTeamList" resultType="site.book.team.dto.TeamDTO">

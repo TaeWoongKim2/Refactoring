@@ -163,10 +163,11 @@ public class UserController {
 	
 	// 그룹 완료
 	@RequestMapping("completedGroup.do")
-	public View completedGroup(HttpServletRequest req, TeamDTO team, G_AlarmDTO alarm, Model model) {
-		HttpSession session = req.getSession();
-		String uid = (String)session.getAttribute("info_userid");
-		alarm.setFromid(uid);
+	public View completedGroup(HttpServletRequest req, HttpSession session, 
+								TeamDTO team, G_AlarmDTO alarm, Model model) {
+		
+		String nname = (String)session.getAttribute("info_usernname");
+		alarm.setFromid(nname);
 		
 		TeamDTO completedGroup = teamservice.completedGroup(team, alarm);
 		model.addAttribute("completedGroup", completedGroup);
@@ -254,7 +255,10 @@ public class UserController {
 			// 완료된 그룹 리스트	
 			List<TeamDTO> completedTeamList = teamservice.getCompletedTeamList(nname);
 			model.addAttribute("completedTeamList", completedTeamList);
+<<<<<<< Updated upstream
 			
+=======
+>>>>>>> Stashed changes
 			/*
 			// 그룹 초대/강퇴/완료 알람  쪽지 리스트
 			List<G_MyAlarmDTO> headerAlarmList = galarmservice.getAlarmList(nname);
