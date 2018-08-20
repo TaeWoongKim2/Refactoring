@@ -298,7 +298,7 @@ public class UserController {
 				// 나머지 JsTree 요소 셋팅
 				jstree.setId( Integer.toString(list.get(i).getUbid()) );
 				jstree.setText( list.get(i).getUrlname() );
-				jstree.setUid( nname );
+				jstree.setNname(nname);
 				jstree.setSname( list.get(i).getSname() );
 				jstree.setHtag( list.get(i).getHtag() );
 				

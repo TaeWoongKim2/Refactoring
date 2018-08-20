@@ -29,7 +29,7 @@
 	
 	<!-- 명수 -->
 	<select id="getCategoryList" resultType="site.book.user.dto.U_BookDTO">
-		SELECT * FROM U_BOOK WHERE NNAME=#{nname}  AND URL IS NULL  
+		SELECT * FROM U_BOOK WHERE NNAME=#{nname} AND URL IS NULL  
 	</select>
 
 	<select id="getUrl" resultType="site.book.user.dto.U_BookDTO">
@@ -88,10 +88,10 @@
 	</update>
 	
 	<insert id="insertUrlFromCompletedGroup" parameterType="java.util.Map">
-		INSERT INTO U_BOOK(URL,URLNAME,REGDATE,VIEW,UID,PID)
+		INSERT INTO U_BOOK(URL,URLNAME,REGDATE,VIEW,NNAME,PID)
 			VALUES
 			<foreach separator="," item="item" collection="list">
-			(#{item.url},#{item.urlname},SYSDATE(),0,#{item.uid},#{item.pid})
+			(#{item.url},#{item.urlname},SYSDATE(),0,#{item.nname},#{item.pid})
 			</foreach>
 	</insert>
 	

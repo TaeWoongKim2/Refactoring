@@ -39,7 +39,7 @@ public class SurfingService {
 		return list;
 	}
 	// 여러 URL을 자신의 그룹 북마크에 추가 
-	public int insertGroupBookmarkList(JSONArray obj, String uid ) {
+	public int insertGroupBookmarkList(JSONArray obj, String nname ) {
 		S_BookmarkDAO dao = sqlsession.getMapper(S_BookmarkDAO.class);
 		int result = 0;
 		
@@ -52,7 +52,7 @@ public class SurfingService {
 				
 				dataList.put("gid", Integer.valueOf((String)obj.getJSONObject(i).get("gid")));
 				dataList.put("pid", Integer.valueOf((String)obj.getJSONObject(i).get("pid")));
-				dataList.put("uid", uid);
+				dataList.put("nname", nname);
 				dataList.put("url", url);
 				dataList.put("urlname", (String)obj.getJSONObject(i).get("urlname"));
 				

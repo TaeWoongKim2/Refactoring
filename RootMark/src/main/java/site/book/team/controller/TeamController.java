@@ -184,8 +184,8 @@ public class TeamController {
 	@RequestMapping("addTeamFolderOrUrl.do")
 	public View addTeamFolderOrUrl(HttpServletRequest req, Model model , G_BookDTO g_book) {
 		HttpSession session = req.getSession();
-        String uid = (String)session.getAttribute("info_userid");
-        g_book.setUid(uid);
+        String nname = (String)session.getAttribute("info_username");
+        g_book.setNname(nname);
        /* System.out.println(g_book);*/
 		int result = gbookservice.addTeamFolderOrUrl(g_book);
 		model.addAttribute("result",result);
@@ -336,8 +336,8 @@ public class TeamController {
 	public View addGroupBookmark(HttpServletRequest req, Model model, G_BookDTO g_book) {
         
 		HttpSession session = req.getSession();
-        String uid = (String)session.getAttribute("info_userid");
-        g_book.setUid(uid);
+        String nname = (String)session.getAttribute("info_username");
+        g_book.setNname(nname);
 
         int result = gbookservice.insertGroupBookmark(g_book);
 		if(result > 0) {

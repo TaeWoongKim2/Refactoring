@@ -96,14 +96,14 @@ public class SocialController {
 		List<NoticeDTO> headerNoticeList = notice_service.getNotices();
 		model.addAttribute("headerNoticeList", headerNoticeList);
 		
-		/*if(uid != null) {
-			List<TeamDTO> headerTeamList = teamservice.getTeamList(uid);
-			model.addAttribute("headerTeamList", headerTeamList);
-				
-			// 그룹 초대/강퇴/완료 알람  쪽지 리스트
-			List<G_MyAlarmDTO> headerAlarmList = galarmservice.getAlarmList(uid);
-			model.addAttribute("headerAlarmList", headerAlarmList);
-		}*/
+		if(nname != null) {
+	         List<TeamDTO> headerTeamList = teamservice.getTeamList(nname);
+	         model.addAttribute("headerTeamList", headerTeamList);
+	      /*      
+	         // 그룹 초대/강퇴/완료 알람  쪽지 리스트
+	         List<G_MyAlarmDTO> headerAlarmList = galarmservice.getAlarmList(uid);
+	         model.addAttribute("headerAlarmList", headerAlarmList);*/
+	     }
 		
 		return "social.social";
 	}
@@ -160,12 +160,12 @@ public class SocialController {
 	@RequestMapping("getmybookmark.do")
 	public View getSharemark(HttpServletRequest req, Model model) {
 		HttpSession session = req.getSession();
-        String uid = (String)session.getAttribute("info_userid");
+        String nname = (String)session.getAttribute("info_usernname");
         
         JSONArray jarr = new JSONArray();
 		jarr = new JSONArray(req.getParameter("obj"));
         
-        int result = u_bookservice.insertUrlFromCompletedGroup(jarr,uid);
+        int result = u_bookservice.insertUrlFromCompletedGroup(jarr,nname);
 		if(result > 0) {
 			model.addAttribute("result", "success");
 		}else {
@@ -180,9 +180,9 @@ public class SocialController {
 	public View addGroupBookmark(HttpServletRequest req, Model model, G_BookDTO g_book) {
         
 		HttpSession session = req.getSession();
-        String uid = (String)session.getAttribute("info_userid");
-        g_book.setUid(uid);
-        System.out.println(g_book);
+        String nname = (String)session.getAttribute("info_usernname");
+        g_book.setNname(nname);
+        //system.out.println(g_book);
         
         int result = surfingservice.insertGroupBookmark(g_book);
         
@@ -200,12 +200,12 @@ public class SocialController {
 	public View addGroupBookmarkList(HttpServletRequest req, Model model) {
         
 		HttpSession session = req.getSession();
-        String uid = (String)session.getAttribute("info_userid");
+        String nname = (String)session.getAttribute("info_usernname");
         
         JSONArray jarr = new JSONArray();
 		jarr = new JSONArray(req.getParameter("obj"));
         
-        int result = surfingservice.insertGroupBookmarkList(jarr, uid);
+        int result = surfingservice.insertGroupBookmarkList(jarr, nname);
         
 		if(result > 0) {
 			model.addAttribute("result", "success");

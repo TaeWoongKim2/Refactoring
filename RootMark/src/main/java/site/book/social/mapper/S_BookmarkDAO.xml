@@ -7,15 +7,15 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 <mapper namespace="site.book.social.dao.S_BookmarkDAO">
 
 	<insert id="insertGroupBookmark" parameterType="site.book.team.dto.G_BookDTO">
-		INSERT INTO G_BOOK (URL, URLNAME, REGDATE, GID, PID, UID) 
-		VALUES (#{url}, #{urlname}, SYSDATE(), #{gid}, #{pid}, #{uid})
+		INSERT INTO G_BOOK (URL, URLNAME, REGDATE, GID, PID, NNAME) 
+		VALUES (#{url}, #{urlname}, SYSDATE(), #{gid}, #{pid}, #{nname})
 	</insert>
 	
 	<insert id="insertGroupBookmarkList" parameterType="java.util.List">
-		INSERT INTO G_BOOK (URL, URLNAME, REGDATE, GID, PID, UID) 
+		INSERT INTO G_BOOK (URL, URLNAME, REGDATE, GID, PID, NNAME) 
 		VALUES 
 		<foreach collection="list" item="gblist" separator=",">
-		( #{gblist.url}, #{gblist.urlname}, SYSDATE(), #{gblist.gid}, #{gblist.pid}, #{gblist.uid} )
+		( #{gblist.url}, #{gblist.urlname}, SYSDATE(), #{gblist.gid}, #{gblist.pid}, #{gblist.nname} )
 		</foreach>
 	</insert>
 	
