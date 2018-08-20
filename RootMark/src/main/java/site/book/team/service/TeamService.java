@@ -162,10 +162,10 @@ public class TeamService {
 	
 	// 명수
 	// 완료 그룹 리스트 가져오기
-	public List<TeamDTO> getCompletedTeamList(String uid) {
+	public List<TeamDTO> getCompletedTeamList(String nname) {
 		
 		TeamDAO teamDAO = sqlsession.getMapper(TeamDAO.class);
-		List<TeamDTO> dtolist = teamDAO.getCompletedTeamList(uid);
+		List<TeamDTO> dtolist = teamDAO.getCompletedTeamList(nname);
 
 		return dtolist;
 	}

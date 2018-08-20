@@ -131,10 +131,10 @@ public class UserController {
 	
 	// 그룹 나가기
 	@RequestMapping("leaveGroup.do")
-	public View leaveGroup(HttpServletRequest req, G_MemberDTO member, Model model) {
-		HttpSession session = req.getSession();
-		String uid = (String)session.getAttribute("info_userid");
-		member.setUid(uid);
+	public View leaveGroup(HttpServletRequest req, HttpSession session, G_MemberDTO member, Model model) {
+		
+		String nname = (String)session.getAttribute("info_usernname");
+		member.setNname(nname);
 		
 		int row = g_memberservice.leaveGroup(member);
 		
@@ -163,10 +163,11 @@ public class UserController {
 	
 	// 그룹 완료
 	@RequestMapping("completedGroup.do")
-	public View completedGroup(HttpServletRequest req, TeamDTO team, G_AlarmDTO alarm, Model model) {
-		HttpSession session = req.getSession();
-		String uid = (String)session.getAttribute("info_userid");
-		alarm.setFromid(uid);
+	public View completedGroup(HttpServletRequest req, HttpSession session, 
+								TeamDTO team, G_AlarmDTO alarm, Model model) {
+		
+		String nname = (String)session.getAttribute("info_usernname");
+		alarm.setFromid(nname);
 		
 		TeamDTO completedGroup = teamservice.completedGroup(team, alarm);
 		model.addAttribute("completedGroup", completedGroup);
@@ -236,11 +237,6 @@ public class UserController {
 		HttpSession session = req.getSession();
 		String nname = (String)session.getAttribute("info_usernname");
 		
-		/*List<TeamDTO> teamList = teamservice.getTeamList(nname);
-		model.addAttribute("teamList", teamList);*/
-		
-		
-		
 		// 관리자 공지사항 쪽지 리스트
 		List<NoticeDTO> headerNoticeList = notice_service.getNotices();
 		model.addAttribute("headerNoticeList", headerNoticeList);
@@ -251,12 +247,10 @@ public class UserController {
 			model.addAttribute("headerTeamList", headerTeamList);
 			model.addAttribute("teamList", headerTeamList);
 			
-
-			/*
 			// 완료된 그룹 리스트	
 			List<TeamDTO> completedTeamList = teamservice.getCompletedTeamList(nname);
 			model.addAttribute("completedTeamList", completedTeamList);
-			
+			/*
 			// 그룹 초대/강퇴/완료 알람  쪽지 리스트
 			List<G_MyAlarmDTO> headerAlarmList = galarmservice.getAlarmList(nname);
 			model.addAttribute("headerAlarmList", headerAlarmList);*/

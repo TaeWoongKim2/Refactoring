@@ -135,9 +135,9 @@ public class TeamController {
 	
 	// 완료 그룹 삭제하기
 	@RequestMapping("deleteCompletedTeam.do")
-	public View deleteCompletedTeam(String uid, Model model) {
+	public View deleteCompletedTeam(String nname, Model model) {
 		
-		int result = teamservice.deleteCompletedTeam(uid);
+		int result = teamservice.deleteCompletedTeam(nname);
 		
 		model.addAttribute("result", result);
 		return jsonview;

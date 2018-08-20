@@ -1045,15 +1045,16 @@ function deleteCompletedGroup(gid) {
 	        	btnClass : 'btn-danger',
 	        	keys: ['enter'],
 	        	action : function () {
-	        		$("#"+gid).remove(); // 완료된 그룹리스트에서 지우기
+	        		
 	    			$.ajax({
 	    				url: "leaveGroup.do",
 	    				type: "post",
 	    				data : {
 	    					gid : gid // 그룹 ID
 	    				},
-	    				success : function(data){
-	    					//console.log(data);
+	    				success : function(data) {
+	    					// 완료된 그룹리스트에서 지우기
+	    					$("#" + gid).remove(); 
 	    				}
 	    			});
 	        	}

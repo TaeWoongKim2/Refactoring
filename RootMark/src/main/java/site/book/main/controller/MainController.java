@@ -121,20 +121,20 @@ public class MainController {
 		model.addAttribute("bookList", bookList);
 		
 		HttpSession session = req.getSession();
-		String uid = (String)session.getAttribute("info_userid");
+		String nname = (String)session.getAttribute("info_usernname");
 		
 		// 관리자 공지사항 쪽지 리스트
 		List<NoticeDTO> headerNoticeList = notice_service.getNotices();
 		model.addAttribute("headerNoticeList", headerNoticeList);
 		
-		/*if(uid != null) {
-			List<TeamDTO> headerTeamList = teamservice.getTeamList(uid);
+		if(nname != null) {
+			List<TeamDTO> headerTeamList = teamservice.getTeamList(nname);
 			model.addAttribute("headerTeamList", headerTeamList);
 				
 			// 그룹 초대/강퇴/완료 알람  쪽지 리스트
-			List<G_MyAlarmDTO> headerAlarmList = galarmservice.getAlarmList(uid);
-			model.addAttribute("headerAlarmList", headerAlarmList);
-		}*/
+			/*List<G_MyAlarmDTO> headerAlarmList = galarmservice.getAlarmList(uid);
+			model.addAttribute("headerAlarmList", headerAlarmList);*/
+		}
 		
 		return "home.index";
 	}
